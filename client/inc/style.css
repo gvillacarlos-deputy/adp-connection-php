@@ -1,0 +1,82 @@
+
+			html, #page { padding:0; margin:0;}
+			body { margin:0; padding:0; width:100%; color:#959595; font:normal 14px/2.0em Sans-Serif;} 
+			h1, h2, h3, h4, h5, h6 {color:darkgreen;}
+			#page { background:#fff;}
+			#header, #footer, #top-nav, #content, #content #contentbar, #content #sidebar { margin:0; padding:0;}
+
+			/* Header */
+			#header { background:#fff; }
+			#header-inner { margin:0 auto; padding:0; width:970px;}
+
+			/* Feature */
+			.feature { background:green;padding:5px;}
+			.feature-inner { margin:auto;width:970px; }
+			.feature-inner h1 {color:#DAE9BC;font-size:32px;}
+
+			/* Menu */
+			#top-nav { margin:0 auto; padding:0;  float:right;}
+			#top-nav ul { list-style:none; padding:0; height:37px; float:left;}
+			#top-nav ul li { margin:0; padding:0 0 0 8px; float:left;}
+			#top-nav ul li a { display:block; margin:0; padding:8px 20px; color:green; text-decoration:none;}
+			#top-nav ul li.active a, #top-nav ul li a:hover { color:#BCCE98;}
+
+			/* Content */
+			#content-inner { margin:0 auto; padding:10px 0; width:970px;background:#fff;}
+
+			.login {
+				width: 250px;
+			}
+
+			.logout {
+				width: 150px;
+			}
+
+			a.box:link, a.box:visited {
+			    background-color: #009900;
+			    color: white;
+			    padding: 14px 25px;
+			    text-align: center;	
+			    text-decoration: none;
+			    display: inline-block;
+			}
+
+
+			a.box:hover, a.box:active {
+			    background-color: red;
+			}
+
+			a.api:link, a.api:visited {
+				background-color: #ffffcc;
+			    padding: 2px 6px;
+			    text-align: center;
+			    text-decoration: none;
+			    display: inline-block;
+			    border:1px solid black;
+			    width: 180px;
+			    margin-right: 35px;
+			    margin-bottom: 25px;
+			}
+
+
+			a.api:hover, a.api:active {
+			    background-color: #ffcc99;
+			}
+
+			/* Clear both sides to assist with div alignment  */
+			.clr { clear:both; padding:0; margin:0; width:100%; font-size:0px; line-height:0px;}
+
+
+.alert-danger {
+	color: #a94442;
+	background-color: #f2dede;
+	border-color:	#ebccd1;
+}
+
+.alert {
+	padding: 15px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	box-sizing: border-box;
+
+}

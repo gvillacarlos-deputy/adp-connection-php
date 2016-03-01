@@ -1,0 +1,9 @@
+{
+    "name": "adpmarketplace/api-connection",
+    "type": "adpmarketplace-apimodule",
+    "license": "Apache-2.0",
+    "require": {
+	"php": ">=5.3.0",
+        "adpmarketplace/api-module-installer-plugin": "*"
+    }
+}
