@@ -40,7 +40,7 @@ $configuration = array (
         'tokenServerURL'		=> $ADP_APIROOT
     );
 
-$logger->write("Configuration info: " . print_r($configuration, true) );
+$logger->write("Configuration info set.");
 
 //----------------------
 // Create the class

@@ -32,19 +32,23 @@ require ($libroot . "connection/adpapiConnection.class.php");
 
 if (isset($_GET['error'])) {
 
+	$error_string = filter_var($_GET['error'], FILTER_SANITIZE_STRING);
+
 	include($webroot . "inc/header.php");
 	echo "<h1>Gateway Error</h1>";
 	echo "<div class='alert alert-danger'>\n";
-	echo "The error returned is: " . $_GET['error'];
+	echo "The error returned is: " . $error_string;
 	echo "</div>\n";
 	exit();
 
 }
 
-
 // Get the authorization code, if available.  BE SURE TO SANITIZE!!!  For this demo, we will not.
 $retcode = $_GET['code'];
-$logger->write("Back from authentication.  Code is $retcode");
+
+$retcode = filter_var($_GET['code'], FILTER_SANITIZE_STRING);
+
+$logger->write("Back from authentication.  Received code.");
 
 // restore session object from session.  Handle sessions the way you see fit.
 $adpConn = unserialize($_SESSION['adpConn']);
