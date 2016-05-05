@@ -258,7 +258,7 @@ class adpapiClientConnection extends adpapiConnection {
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 	true);
 		curl_setopt($curl, CURLOPT_POST, 			true);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, 		$postdata);
-		curl_setopt($curl, CURLOPT_USERAGENT, 		"adp-connection-php/1.0.0");
+		curl_setopt($curl, CURLOPT_USERAGENT, 		"adp-connection-php/1.0.1");
 
 		$this->logger->write("Making Call");
 
@@ -471,7 +471,7 @@ class adpapiAuthorizedConnection extends adpapiConnection {
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 	1);
 
 		curl_setopt($curl, CURLOPT_POSTFIELDS, 		$postdata);
-		curl_setopt($curl, CURLOPT_USERAGENT, 		"adp-connection-php/1.0.0");
+		curl_setopt($curl, CURLOPT_USERAGENT, 		"adp-connection-php/1.0.1");
 
 		$this->logger->write("::Making the call");
 
