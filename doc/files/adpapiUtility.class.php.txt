@@ -28,15 +28,21 @@ class adpapiUtilityFactory {
 	*/
 	protected static $utility = array();
 
+	public function __construct() {
+
+		// Do nothing.
+
+	}
 
     /**
      * Utility Factory - returns a static instance of a utility class to be used anywhere
      *
-     *
+     * @codeCoverageIgnore
      * @param string $name - Name of the utility instance to create
      * @return class
      */
 	public static function getObject($name) {
+
 
 		if (empty(self::$utility[$name])) {
 
@@ -98,43 +104,48 @@ class adpapiUtilityFactory {
  	public function write($line) {
 
 
+ 		// PHPUNIT doesnt like referring to class variables, so we transfer them to local vars
 
- 		if ($this->logging != 1) {
- 			return;
- 		}
+ 		// @codeCoverageIgnoreStart
+ 		$logging = $this->logging;
+ 		$logmode = $this->logmode;
+ 		$logfile = $this->logfile;
+ 		// @codeCoverageIgnoreEnd
 
- 		$iscli = (php_sapi_name() === 'cli' OR defined('STDIN'));	// Catch CLI and PHP-CGI conditions.
+ 		if ($logging == 1) {
 
-		$str = "";
+	 		$iscli = (php_sapi_name() === 'cli' OR defined('STDIN'));	// Catch CLI and PHP-CGI conditions.
 
-		if ($iscli || $this->logmode == 1) {
+			$str = "[APILOG] ";
 
-			$str = "[ " . date("Y-m-d H:i:s") . " ] - ";			// Add date and time if we're in our own file
+			if ($iscli || $logmode == 1) {
+
+				$str = "[ " . date("Y-m-d H:i:s") . " ] - ";			// Add date and time if we're in our own file
+
+			}
+
+			$str .= $line;
+
+			if ($iscli || $logmode == 1) {						// Writing to log file
+
+				$str .= "\n";
+
+				$handle = @fopen($logfile, "a+");
+				@fwrite($handle, $str);
+				@fclose($handle);
+
+			}
+
+			// Because PHPUNIT fails with elses
+			if (!$iscli && $logmode != 1) {
+				// @codeCoverageIgnoreStart
+				error_log($str, 0);
+				// @codeCoverageIgnoreEnd
+			}
 
 		}
 
-		else {
-
-			$str = "[APILOG] ";										// Add APILOG box to beginning of line for easier identification
-
-		}
-
-		$str .= $line;
-
-		if ($iscli || $this->logmode == 1) {						// Writing to log file
-
-			$str .= "\n";
-
-			$handle = @fopen($this->logfile, "a+");
-			@fwrite($handle, $str);
-			@fclose($handle);
-
-		}
-		else {														// Writing to STDERR
-
-			error_log($str, 0);
-
-		}
+		return;
 
  	}
 
@@ -159,8 +170,8 @@ $logger->logfile = $adp_logfile;
  *
  *  This class is included in this file for convenience, since the connection is required for all other apis.
  *
+ *  @codeCoverageIgnore
  */
-
 abstract class adpapiProduct {
 
 	/**

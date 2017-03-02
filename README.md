@@ -3,7 +3,7 @@
 The ADP Client Connection Library is intended to simplify and aid the process of authenticating, authorizing and connecting to the ADP Marketplace API Gateway. The Library includes a sample application that can be run out-of-the-box to connect to the ADP Marketplace API **test** gateway.
 
 ### Version
-1.0.1
+1.0.2
 
 ### Installation
 
@@ -58,7 +58,7 @@ require_once ($libroot . "connection/adpapiConnection.class.php");
 //----------------------
 
 $configuration = array (
-        'grantType'             => 'ClientCredentials',
+        'grantType'             => 'client_credentials',
         'clientID'              => $ADP_CC_CLIENTID,
         'clientSecret'          => $ADP_CC_CLSECRET,
         'sslCertPath'           => $ADP_CERTFILE,
@@ -115,7 +115,7 @@ require_once ($libroot . "connection/adpapiConnection.class.php");
 //----------------------
 
 $configuration = array (
-        'grantType'             => 'AuthorizationCode',
+        'grantType'             => 'authorization_code',
         'clientID'              => $ADP_AC_CLIENTID,
         'clientSecret'          => $ADP_AC_CLSECRET,
         'sslCertPath'           => $ADP_CERTFILE,

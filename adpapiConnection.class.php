@@ -23,8 +23,8 @@ class adpapiConnectionFactory {
 	* @var array $grant_types
 	*/
 	 private static $grant_types = array (
-        'ClientCredentials' 			=> 'ClientConnection',
-        'AuthorizationCode' 			=> 'AuthorizedConnection'
+        'client_credentials' 			=> 'ClientConnection',
+        'authorization_code' 			=> 'AuthorizedConnection'
     );
 
     /**

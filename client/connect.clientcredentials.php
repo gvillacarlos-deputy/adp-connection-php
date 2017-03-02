@@ -32,7 +32,7 @@ require_once ($libroot . "connection/adpapiConnection.class.php");
 //----------------------
 
 $configuration = array (
-        'grantType' 			=> 'ClientCredentials',
+        'grantType' 			=> 'client_credentials',
         'clientID'				=> $ADP_CC_CLIENTID,
         'clientSecret'			=> $ADP_CC_CLSECRET,
         'sslCertPath'			=> $ADP_CERTFILE,

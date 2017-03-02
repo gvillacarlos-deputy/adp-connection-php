@@ -16,22 +16,15 @@ express or implied.  See the License for the specific language
 governing permissions and limitations under the License.
 */
 
-/**
- *
- *  This class acts as a factory to return an instance of the appropriate class based on grant type.
- *
- */
-
 class adpapiConnectionFactory {
-
 
 	/**
 	* Grant type map
 	* @var array $grant_types
 	*/
 	 private static $grant_types = array (
-        'ClientCredentials' 			=> 'ClientConnection',
-        'AuthorizationCode' 			=> 'AuthorizedConnection'
+        'client_credentials' 			=> 'ClientConnection',
+        'authorization_code' 			=> 'AuthorizedConnection'
     );
 
     /**
@@ -48,8 +41,10 @@ class adpapiConnectionFactory {
 		$grant_type = $config['grantType'];
 
 		if (empty(self::$grant_types[$grant_type])) {
+			// @codeCoverageIgnoreStart
 			throw new adpException("Invalid Grant Type.", 0 , null, "");
 			return;
+			// @codeCoverageIgnoreEnd
 		}
 
 		$classname = "adpapi" . self::$grant_types[$grant_type];
@@ -58,8 +53,10 @@ class adpapiConnectionFactory {
 			return new $classname($config);
 		}
 
+		// @codeCoverageIgnoreStart
 		throw new adpException("Invalid Grant Type.", 0 , null, "");
 		return;
+		// @codeCoverageIgnoreEnd
 	}
 
 }
@@ -67,7 +64,7 @@ class adpapiConnectionFactory {
 /**
  *
  *  This is an abstract class that contains shared functionality among all grant types.
- *
+ * @codeCoverageIgnore
  */
 abstract class adpapiConnection {
 
@@ -121,6 +118,7 @@ abstract class adpapiConnection {
 
 	/**
 	* Constructor
+	* @codeCoverageIgnore
 	* @param array $config - Configuration Options
 	*/
 	public function __construct($config) {
@@ -230,8 +228,10 @@ class adpapiClientConnection extends adpapiConnection {
 		$this->logger->write("CC Connect");
 
 		if (strlen($this->apiRoot) < 10) {
+			// @codeCoverageIgnoreStart
 			throw new adpException("Missing token server url.", 0 , null, "");
 			return;
+			// @codeCoverageIgnoreEnd
 		}
 
 		$this->logger->write("Creating Parameters");
@@ -258,6 +258,7 @@ class adpapiClientConnection extends adpapiConnection {
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 	true);
 		curl_setopt($curl, CURLOPT_POST, 			true);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, 		$postdata);
+		curl_setopt($curl, CURLOPT_USERAGENT, 		"adp-connection-php/1.0.1");
 
 		$this->logger->write("Making Call");
 
@@ -273,13 +274,17 @@ class adpapiClientConnection extends adpapiConnection {
 		if ($this->status != 200) {
 
 			if (curl_errno($curl) <> 0) {
+				// @codeCoverageIgnoreStart
 				throw new adpException("Communication Error", curl_errno($curl) , null, curl_error($curl));
 				return;
+				// @codeCoverageIgnoreEnd
 			}
 			else {
 
+				// @codeCoverageIgnoreStart
 				throw new adpException($this->decoded->error, $this->status , null, $this->jsondata);
 				return;
+				// @codeCoverageIgnoreEnd
 			}
 		}
 		else {
@@ -304,6 +309,8 @@ class adpapiClientConnection extends adpapiConnection {
      * @return void
      */
 	public function disconnect() {
+
+		return true;
 
 	}
 
@@ -393,8 +400,10 @@ class adpapiAuthorizedConnection extends adpapiConnection {
 		$this->logger->write("::AC building Request URI");
 
 		if (strlen($this->apiRoot) < 10) {
+			// @codeCoverageIgnoreStart
 			throw new adpException("Missing token server url.", 0 , null, "");
 			return;
+			// @codeCoverageIgnoreEnd
 		}
 
 		$endpoint = $this->apiRoot . "auth/oauth/v2/authorize";
@@ -417,7 +426,7 @@ class adpapiAuthorizedConnection extends adpapiConnection {
 
     /**
      * Connect - Connects to the ADP Endpoint and retrieves an access token / Client Credentials
-     *
+     * @codeCoverageIgnore
      * @return void
      */
 	public function connect() {
@@ -425,8 +434,10 @@ class adpapiAuthorizedConnection extends adpapiConnection {
 		$this->logger->write("::AC Connect");
 
 		if (strlen($this->apiRoot) < 10) {
+			// @codeCoverageIgnoreStart
 			throw new adpException("Missing token server url.", 0 , null, "");
 			return;
+			// @codeCoverageIgnoreEnd
 		}
 
 		$this->logger->write("::Building Parameters");
@@ -453,13 +464,14 @@ class adpapiAuthorizedConnection extends adpapiConnection {
 
 		$curl = curl_init();
 
-		curl_setopt($curl, CURLOPT_URL,			$endpoint);
-		curl_setopt($curl, CURLOPT_SSLCERT,		$pemf);
-		curl_setopt($curl, CURLOPT_SSLKEY, 		$keyf);
-		curl_setopt($curl, CURLOPT_USERPWD, 	"$id:$secret");
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_URL,				$endpoint);
+		curl_setopt($curl, CURLOPT_SSLCERT,			$pemf);
+		curl_setopt($curl, CURLOPT_SSLKEY, 			$keyf);
+		curl_setopt($curl, CURLOPT_USERPWD, 		"$id:$secret");
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 	1);
 
-		curl_setopt($curl, CURLOPT_POSTFIELDS, 	$postdata);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, 		$postdata);
+		curl_setopt($curl, CURLOPT_USERAGENT, 		"adp-connection-php/1.0.1");
 
 		$this->logger->write("::Making the call");
 
@@ -475,13 +487,16 @@ class adpapiAuthorizedConnection extends adpapiConnection {
 		if ($this->status != 200) {
 
 			if (curl_errno($curl) <> 0) {
+				// @codeCoverageIgnoreStart
 				throw new adpException("Communication Error", curl_errno($curl) , null, curl_error($curl));
 				return;
+				// @codeCoverageIgnoreEnd
 			}
 			else {
-
+				// @codeCoverageIgnoreStart
 				throw new adpException($this->decoded->error, $this->status , null, $this->jsondata);
 				return;
+				// @codeCoverageIgnoreEnd
 			}
 		}
 		else {
@@ -506,6 +521,8 @@ class adpapiAuthorizedConnection extends adpapiConnection {
      */
 	public function disconnect() {
 
+		return true;
+
 	}
 
     /**
@@ -514,6 +531,8 @@ class adpapiAuthorizedConnection extends adpapiConnection {
      * @return void
      */
 	public function refreshToken() {
+
+		return true;
 
 	}
 
@@ -547,6 +566,6 @@ class adpapiAuthorizedConnection extends adpapiConnection {
 // Automatically load the UTILITY class when loading the connection classes.
 //-----------------------------------------------------------------------------
 
-include($libroot . "connection/adpapiUtility.class.php");
+require_once($libroot . "connection/adpapiUtility.class.php");
 
 
