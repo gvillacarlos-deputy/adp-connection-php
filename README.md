@@ -3,7 +3,7 @@
 The ADP Client Connection Library is intended to simplify and aid the process of authenticating, authorizing and connecting to the ADP Marketplace API Gateway. The Library includes a sample application that can be run out-of-the-box to connect to the ADP Marketplace API **test** gateway.
 
 ### Version
-1.0.2
+1.0.3
 
 ### Installation
 
